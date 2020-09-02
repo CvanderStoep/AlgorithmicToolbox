@@ -1,26 +1,20 @@
 # python3
-l1, l2 = "", "" # use global variable for time being
-common_subsequence = ""
 
-def output_alignment(A, B, D, i, j):
-    global l1, l2, common_subsequence
+def output_alignment(A, B, D, l1, l2, common_sub, i, j):
     if i == 0 and j == 0:
-        return
+        return l1, l2, common_sub
     if i > 0 and D[i][j] == D[i-1][j] + 1:
-        output_alignment(A, B, D, i-1, j)
+        (l1, l2, common_sub) = output_alignment(A, B, D, l1, l2, common_sub, i-1, j)
         l1, l2 = l1 + A[i], l2 + "-"
-        # print(A[i], "-")
     elif j > 0 and D[i][j] == D[i][j-1] + 1:
-        output_alignment(A, B, D, i, j-1)
+        (l1, l2, common_sub) = output_alignment(A, B, D, l1, l2, common_sub, i, j-1)
         l1, l2 = l1 + "-", l2 + B[j]
-        # print("-", B[j])
     else:
-        output_alignment(A, B, D, i-1, j-1)
+        (l1, l2, common_sub) = output_alignment(A, B, D, l1, l2, common_sub, i-1, j-1)
         l1, l2 = l1 + A[i], l2 + B[j]
         if A[i] == B[j]:
-            common_subsequence = common_subsequence + A[i]
-        # print(A[i], B[j])
-    return l1, l2, common_subsequence
+            common_sub = common_sub + A[i]
+    return l1, l2, common_sub
 
 
 def edit_distance(first_string, second_string):
@@ -41,21 +35,16 @@ def edit_distance(first_string, second_string):
             match = D[i-1][j-1]
             mismatch = D[i-1][j-1] + 1
             if A[i] == B[j]:
-                # print(i,j,A[i], B[j])
                 D[i][j] = min(insertion, deletion, match)
             else:
                 D[i][j] = min(insertion, deletion, mismatch)
 
-    print("alignment: ")
-    l1, l2, l3 = output_alignment(A, B, D, n-1, m-1)
-    print(l1)
-    print(l2)
-    print(l3)
+    l1, l2, l3 = output_alignment(A, B, D, "", "", "", n-1, m-1)
 
-    return D[n-1][m-1]
+    return D[n-1][m-1], l1, l2, l3
 
 
 if __name__ == "__main__":
 
-    print(edit_distance(input(), input()))
+    print(edit_distance(input("Enter the first string: "), input("Enter the second string: ")))
 
