@@ -56,4 +56,7 @@ def find_maximum_value(dataset):
 
 
 if __name__ == "__main__":
+    print("give input for expression:")
+    print("example: 3*4+5-9")
+    print("")
     print("maximum value= ", find_maximum_value(input()))
