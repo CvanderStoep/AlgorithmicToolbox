@@ -107,6 +107,9 @@ def bruteforcepartition3(items):
 
 
 if __name__ == '__main__':
+    print("give number of souvenirs and individual values:")
+    print("example: 8 2 2 8 1 6 5 9 12")
+    print("")
     input_n, *input_values = list(map(int, input().split()))
     assert input_n == len(input_values)
     print("partition2 = ", partition2(input_values))
